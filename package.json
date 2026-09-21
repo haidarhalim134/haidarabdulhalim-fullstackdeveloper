@@ -4,7 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev:frontend": "vite",
+    "dev:backend": "tsx watch api/index.ts",
+    "dev": "concurrently \"npm:dev:frontend\" \"npm:dev:backend\"",
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview",
@@ -25,6 +27,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
+    "concurrently": "^10.0.5",
     "oxlint": "^1.81.0",
     "prisma": "^8.0.0-rc.15",
     "tsx": "^4.23.15",
