@@ -1,5 +1,5 @@
 // api/index.js
-const express = require('express');
+import express from "express";
 const app = express();
 
 app.use(express.json());
@@ -9,5 +9,4 @@ app.get('/api/healthcheck', (req, res) => {
   res.status(200).json({ status: 'ok', message: 'Express server running on Vercel!' });
 });
 
-// Export the Express app for Vercel
-module.exports = app;
+export default app
