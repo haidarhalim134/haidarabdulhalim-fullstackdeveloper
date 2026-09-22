@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
 import LoginPage from './pages/login'
 import RegisterPage from './pages/register'
-import ProtectedRoute from './components/protectedRoute'
+import ProtectedRoute from './components/protected-route'
 import { AuthProvider } from './context/authContext'
 
 
