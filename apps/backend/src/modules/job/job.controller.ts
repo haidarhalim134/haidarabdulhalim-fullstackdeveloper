@@ -18,6 +18,7 @@ import {
   updateApplicationStatus,
 } from "./job.service";
 import { RoleEnum } from "../auth/auth.dto";
+import { AppError } from "../../lib/errors";
 
 export const router = Router();
 router.use(authenticate({ fullProfile: true }))
@@ -76,7 +77,14 @@ router.post(
         data: application,
       });
     } catch (error) {
-      next(error);
+      if (error?.message?.includes("applications_jobId_jobSeekerProfileId_key")) {
+        next(new AppError(
+          "You have already applied for this job",
+          409
+        ))
+      } else {
+        next(error);
+      }
     }
   }
 );
