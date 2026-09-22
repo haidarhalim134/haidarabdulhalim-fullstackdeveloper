@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
-import { RegisterDto } from "./auth.dto";
+import { AuthResponse, LoginDto, RegisterDto } from "./auth.dto";
 import { db } from "../../../prisma/db";
-import { AppError } from "../../lib/errors";
+import { AppError, UnauthorizedError } from "../../lib/errors";
+import jwt from "jsonwebtoken";
 
 export const registerUser = async (input: RegisterDto) => {
   const body = input.body
@@ -23,4 +24,34 @@ export const registerUser = async (input: RegisterDto) => {
   });
 
   return user;
+};
+
+const generateToken = (userId: string) => {
+    return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+};
+
+export const loginUser = async (loginData: LoginDto): Promise<AuthResponse> => {
+  const { email, password } = loginData.body;
+
+  const user = await db.orm.public.User.where({
+    email
+  }).first();
+
+  if (!user) {
+    throw new UnauthorizedError('Invalid credentials');
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    throw new UnauthorizedError('Invalid credentials');
+  }
+
+  const token = await generateToken(user.id);
+  const { password: _, ...userWithoutPassword } = user;
+
+  return {
+    user: userWithoutPassword,
+    token,
+  };
 };
