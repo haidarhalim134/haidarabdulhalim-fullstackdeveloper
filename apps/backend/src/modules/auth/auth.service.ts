@@ -1,8 +1,9 @@
 import bcrypt from "bcrypt";
-import { AuthResponse, LoginDto, RegisterDto } from "./auth.dto";
+import { AuthResponse, LoginDto, RegisterDto, RoleEnum } from "./auth.dto";
 import { db } from "../../../prisma/db";
 import { AppError, UnauthorizedError } from "../../lib/errors";
 import jwt from "jsonwebtoken";
+import { User } from "../user/user.dto";
 
 export const registerUser = async (input: RegisterDto) => {
   const body = input.body
@@ -23,7 +24,25 @@ export const registerUser = async (input: RegisterDto) => {
       role: body.role,
   });
 
-  return user;
+  let jobSeekerProfile, companyProfile
+  if (body.role == RoleEnum.enum.JOB_SEEKER) {
+      jobSeekerProfile = await db.orm.public.JobSeekerProfile.create({
+        fullName: body.jobSeekerProfile.fullName,
+        phone: body.jobSeekerProfile.phone,
+        resumeUrl: body.jobSeekerProfile.resumeUrl
+      })
+  } else {
+    companyProfile = await db.orm.public.CompanyProfile.create({
+      companyName: body.companyProfile.companyName,
+      website: body.companyProfile.website
+    })
+  }
+
+  return {
+    user,
+    jobSeekerProfile,
+    companyProfile
+  };
 };
 
 const generateToken = (userId: string) => {
