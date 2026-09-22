@@ -3,38 +3,18 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
-    "dev:frontend": "vite",
-    "dev:backend": "tsx watch api/index.ts",
-    "dev": "concurrently \"npm:dev:frontend\" \"npm:dev:backend\"",
-    "build": "vite build",
-    "lint": "oxlint",
-    "preview": "vite preview",
-    "postinstall": "prisma skills sync || exit 0",
-    "contract:emit": "prisma contract emit"
-  },
-  "dependencies": {
-    "@prisma/client": "^7.10.0",
-    "@prisma/orm-postgres": "^8.0.0-rc.11",
-    "cors": "^2.8.6",
-    "dotenv": "^18.0.1",
-    "express": "^5.2.1",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "dev": "concurrently \"npm:dev:*\"",
+    "dev:frontend": "npm run dev --workspace=apps/frontend",
+    "dev:backend": "npm run dev --workspace=apps/backend",
+    "build": "npm run build --workspace=apps/frontend",
+    "lint": "oxlint"
   },
   "devDependencies": {
-    "@prisma/cli-engine": "^0.4.0",
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.6",
-    "@types/node": "^26.6.2",
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.7",
-    "@vitejs/plugin-react": "^6.1.1",
     "concurrently": "^10.0.5",
-    "oxlint": "^1.81.0",
-    "prisma": "^8.0.0-rc.15",
-    "tsx": "^4.23.15",
-    "typescript": "^5.9.3",
-    "vite": "^8.3.0"
+    "oxlint": "^1.81.0"
   }
 }
