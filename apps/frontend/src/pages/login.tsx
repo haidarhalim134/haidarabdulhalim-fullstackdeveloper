@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import * as React from 'react'
-import { AuthResponse } from "../types/auth.dto";
+import { AuthResponse, RoleEnum } from "../types/auth.dto";
 import { api } from "../lib/api";
 
 export default function LoginPage() {
@@ -40,8 +40,12 @@ export default function LoginPage() {
 
       localStorage.setItem("token", result.token);
       localStorage.setItem("user", JSON.stringify(result.user));
-
-      navigate("/dashboard");
+      
+      if (result.user.role == RoleEnum.enum.JOB_SEEKER) {
+        navigate("/job-seeker/find-job");
+      } else {
+        navigate("/company/jobs");
+      }
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Invalid email or password"
