@@ -14,7 +14,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "jsx": "react"
   },
   "include": [
     "**/*.ts",
