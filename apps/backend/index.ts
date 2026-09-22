@@ -1,12 +1,14 @@
 import express, { Request, Response } from "express";
+import cors from 'cors'
+import { router as authRouter } from "./src/modules/auth/auth.controller";
+
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
-app.get('/api/healthcheck', (req: Request, res: Response) => {
-  res.status(200).json({ status: 'ok', message: 'Express server running on Vercel!' });
-});
+app.use('/auth', authRouter);
 
 // for local development
 if (process.env.NODE_ENV !== 'production') {
