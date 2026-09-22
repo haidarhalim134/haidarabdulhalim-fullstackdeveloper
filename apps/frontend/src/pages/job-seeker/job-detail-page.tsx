@@ -3,18 +3,18 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, MapPin } from "lucide-react";
 
-import { applyToJob, getJob } from "@/lib/api-helper";
+import { applyToJob, getJob } from "@/src/lib/api-helper";
 import type { Job } from "@/src/types/job.dto";
 
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/src/components/ui/button";
+import { Badge } from "@/src/components/ui/badge";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+} from "@/src/components/ui/card";
+import { Separator } from "@/src/components/ui/separator";
 import { useAuth } from '@/src/context/authContext';
 import { RoleEnum } from '@/src/types/auth.dto';
 

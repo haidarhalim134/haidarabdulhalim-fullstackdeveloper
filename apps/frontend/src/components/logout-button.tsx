@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button } from "@/components/ui/button";
+import { Button } from "@/src/components/ui/button";
 import { LogOut } from "lucide-react";
 import { useAuth } from '../context/authContext';
 

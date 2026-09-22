@@ -2,25 +2,25 @@ import * as React from 'react'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { createJob } from "@/lib/api-helper";
+import { createJob } from "@/src/lib/api-helper";
 import type { JobType } from "@/src/types/job.dto";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/src/components/ui/button";
+import { Input } from "@/src/components/ui/input";
+import { Textarea } from "@/src/components/ui/textarea";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/src/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/src/components/ui/select";
 
 const jobTypes: JobType[] = [
   "FULL_TIME",

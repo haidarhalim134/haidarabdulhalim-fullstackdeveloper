@@ -2,17 +2,17 @@ import * as React from 'react'
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { getJobs } from "@/lib/api-helper";
+import { getJobs } from "@/src/lib/api-helper";
 import type { Job } from "@/src/types/job.dto";
 
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/src/components/ui/button";
+import { Badge } from "@/src/components/ui/badge";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/src/components/ui/card";
 import { useAuth } from '@/src/context/authContext';
 
 export function CompanyJobsPage() {

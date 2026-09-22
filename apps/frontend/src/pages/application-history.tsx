@@ -2,16 +2,16 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { getApplicationStatusHistory } from "@/lib/api-helper";
+import { getApplicationStatusHistory } from "@/src/lib/api-helper";
 import { ApplicationHistory } from "@/src/types/job.dto";
 
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/src/components/ui/badge";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/src/components/ui/card";
 
 export default function ApplicationStatusHistoryPage() {
   const { applicationId } = useParams<{

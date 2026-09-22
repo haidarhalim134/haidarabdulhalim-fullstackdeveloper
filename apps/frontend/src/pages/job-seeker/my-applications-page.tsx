@@ -1,18 +1,18 @@
 import * as React from 'react'
 import { useEffect, useState } from "react";
 
-import { getMyApplications } from "@/lib/api-helper";
+import { getMyApplications } from "@/src/lib/api-helper";
 import type { Application } from "@/src/types/job.dto";
 
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/src/components/ui/badge";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/src/components/ui/card";
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/src/components/ui/button';
 
 export function MyApplicationsPage() {
   const [applications, setApplications] =

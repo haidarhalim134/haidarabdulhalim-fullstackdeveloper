@@ -6,28 +6,28 @@ import { ArrowLeft } from "lucide-react";
 import {
   getJobApplicants,
   updateApplicationStatus,
-} from "@/lib/api-helper";
+} from "@/src/lib/api-helper";
 
 import type {
   Application,
   ApplicationStatus,
 } from "@/src/types/job.dto";
 
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/src/components/ui/button";
+import { Badge } from "@/src/components/ui/badge";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/src/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/src/components/ui/select";
 
 const statuses: ApplicationStatus[] = [
   "APPLIED",
