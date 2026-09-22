@@ -5,6 +5,24 @@ enum Role {
   COMPANY
 }
 
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  INTERNSHIP
+  FREELANCE
+  REMOTE
+}
+
+enum ApplicationStatus {
+  APPLIED
+  REVIEWING
+  SHORTLISTED
+  REJECTED
+  ACCEPTED
+}
+
+
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
@@ -44,4 +62,50 @@ model CompanyProfile {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("company_profiles")
+}
+
+model Job {
+  id               String      @id @default(uuid())
+  companyProfileId String
+  title            String
+  location         String
+  salaryMin        Decimal?
+  salaryMax        Decimal?
+  type             JobType
+  description      String
+  createdAt        DateTime    @default(now())
+  updatedAt        temporal.updatedAt()
+
+  company      CompanyProfile @relation(fields: [companyProfileId], references: [id], onDelete: Cascade)
+  applications Application[]
+
+  @@map("jobs")
+}
+
+model Application {
+  id                 String            @id @default(uuid())
+  jobId              String
+  jobSeekerProfileId String
+  status             ApplicationStatus @default(APPLIED)
+  createdAt          DateTime          @default(now())
+  updatedAt          temporal.updatedAt()
+
+  job              Job                  @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  jobSeekerProfile JobSeekerProfile     @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+  statusHistories  ApplicationHistory[]
+
+  // Constraint agar Job Seeker tidak dapat melamar pekerjaan yang sama lebih dari satu kali
+  @@unique([jobId, jobSeekerProfileId])
+  @@map("applications")
+}
+
+model ApplicationHistory {
+  id            String            @id @default(uuid())
+  applicationId String
+  status        ApplicationStatus
+  createdAt     DateTime          @default(now())
+
+  application Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@map("application_histories")
 }
