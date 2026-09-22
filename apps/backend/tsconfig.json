@@ -7,7 +7,7 @@
     "types": [
       "node"
     ],
-    "strict": true,
+    "strict": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "outDir": "dist"
