@@ -5,12 +5,12 @@ export const RoleEnum = z.enum(['JOB_SEEKER', 'COMPANY']);
 export const jobSeekerProfileSchema = z.object({
   fullName: z.string().min(1, 'Full name is required'),
   phone: z.string().optional(),
-  resumeUrl: z.string().url('Invalid URL format').optional(),
+  resumeUrl: z.url().nullable().optional(),
 });
 
 export const companyProfileSchema = z.object({
   companyName: z.string().min(1, 'Company name is required'),
-  website: z.string().url('Invalid URL format').optional(),
+  website: z.url().nullable().optional(),
 });
 
 const baseBodySchema = z.object({
@@ -45,8 +45,7 @@ export interface AuthResponse {
   user: {
     id: string;
     email: string;
-    firstName?: string | null;
-    lastName?: string | null;
+    fullName?: string | null;
     role: string;
   };
   token: string;
