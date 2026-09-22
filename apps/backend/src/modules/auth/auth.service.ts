@@ -27,12 +27,14 @@ export const registerUser = async (input: RegisterDto) => {
   let jobSeekerProfile, companyProfile
   if (body.role == RoleEnum.enum.JOB_SEEKER) {
       jobSeekerProfile = await db.orm.public.JobSeekerProfile.create({
+        userId: user.id,
         fullName: body.jobSeekerProfile.fullName,
         phone: body.jobSeekerProfile.phone,
         resumeUrl: body.jobSeekerProfile.resumeUrl
       })
   } else {
     companyProfile = await db.orm.public.CompanyProfile.create({
+      userId: user.id,
       companyName: body.companyProfile.companyName,
       website: body.companyProfile.website
     })
