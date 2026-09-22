@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { RegisterDto } from "./auth.dto";
 import { db } from "../../../prisma/db";
+import { AppError } from "../../lib/errors";
 
 export const registerUser = async (input: RegisterDto) => {
   const body = input.body
@@ -10,9 +11,7 @@ export const registerUser = async (input: RegisterDto) => {
   }).first();
 
   if (existingUser) {
-    const error = new Error("Email is already registered") as Error & { statusCode?: number };
-    error.statusCode = 400;
-    throw error;
+    throw new AppError("Email is already registered", 400);
   }
 
   const hashedPassword = await bcrypt.hash(body.password, 10);
