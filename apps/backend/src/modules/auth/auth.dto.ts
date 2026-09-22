@@ -1,4 +1,13 @@
+import { DefaultModelRow } from "@prisma/orm-postgres/orm-client";
 import * as z from "zod";
+import { Contract } from "../../../prisma/contract";
+
+type jobSeekerProfile = DefaultModelRow<Contract, "JobSeekerProfile", "public">
+type companyProfile = DefaultModelRow<Contract, "CompanyProfile", "public">
+export type User = DefaultModelRow<Contract, "User", "public"> & {
+  jobSeekerProfile?: jobSeekerProfile,
+  companyProfile?: companyProfile
+}
 
 export const RoleEnum = z.enum(['JOB_SEEKER', 'COMPANY']);
 

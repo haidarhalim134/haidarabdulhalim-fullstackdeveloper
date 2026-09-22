@@ -1,7 +1,6 @@
 import { db } from "../../../prisma/db";
 import { AppError, ForbiddenError, NotFoundError, UnauthorizedError } from "../../lib/errors";
-import { RoleEnum } from "../auth/auth.dto";
-import { User } from "../user/user.dto";
+import { RoleEnum, User } from "../auth/auth.dto";
 import {
   ApplicationStatusEnum,
   CreateJobDto,

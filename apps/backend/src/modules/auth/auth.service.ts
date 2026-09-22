@@ -1,9 +1,8 @@
 import bcrypt from "bcrypt";
-import { AuthResponse, LoginDto, RegisterDto, RoleEnum } from "./auth.dto";
+import { AuthResponse, LoginDto, RegisterDto, RoleEnum, User } from "./auth.dto";
 import { db } from "../../../prisma/db";
 import { AppError, UnauthorizedError } from "../../lib/errors";
 import jwt from "jsonwebtoken";
-import { User } from "../user/user.dto";
 
 export const registerUser = async (input: RegisterDto) => {
   const body = input.body
