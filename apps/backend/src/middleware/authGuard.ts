@@ -32,11 +32,17 @@ export const authenticate = (options: AuthenticateOptions = {}) => {
       }
 
       try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
+        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
+        if (!decoded.userId) {
+          res.status(401).json({
+            success: false,
+            error: 'Not authorized to access this route',
+          });
+          return
+        }
 
-        // Define query conditionally
         let query = await db.orm.public.User.where({
-          id: decoded.id 
+          id: decoded.userId 
         });
         if (options.fullProfile) {
           query = query.include('companyProfile').include('jobSeekerProfile')
@@ -50,7 +56,7 @@ export const authenticate = (options: AuthenticateOptions = {}) => {
           });
           return;
         }
-
+        
         req.user = user as any;
         next();
       } catch (error) {
