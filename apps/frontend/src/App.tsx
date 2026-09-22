@@ -16,6 +16,7 @@ import { ApplicantsPage } from "@/src/pages/company/applicants-page";
 import { RoleEnum } from './types/auth.dto'
 import Navbar from './components/navbar'
 import ApplicationStatusHistoryPage from './pages/application-history'
+import RootRedirect from './components/redirect-root'
 
 export default function App() {
 
@@ -29,6 +30,8 @@ export default function App() {
         </nav> */}
 
         <Routes>
+          <Route path="/" element={<RootRedirect />} />
+          
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
