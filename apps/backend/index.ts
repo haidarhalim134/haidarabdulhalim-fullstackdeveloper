@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from 'cors'
 import { router as authRouter } from "./src/modules/auth/auth.controller";
+import errorHandler from "./src/middleware/errorHandler";
 
 
 const app = express();
@@ -9,6 +10,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/auth', authRouter);
+
+app.use(errorHandler)
 
 // for local development
 if (process.env.NODE_ENV !== 'production') {
