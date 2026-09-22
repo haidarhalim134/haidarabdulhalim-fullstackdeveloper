@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from 'cors'
 import { router as authRouter } from "./src/modules/auth/auth.controller";
+import { router as jobRouter } from "./src/modules/job/job.controller"
 import errorHandler from "./src/middleware/errorHandler";
 
 
@@ -10,6 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/auth', authRouter);
+app.use('/job', jobRouter)
 
 app.use(errorHandler)
 
