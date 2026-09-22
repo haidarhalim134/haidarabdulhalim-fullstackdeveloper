@@ -51,6 +51,6 @@ router.post("/login", validateRequest(loginSchema), async (req: Request, res: Re
   }
 });
 
-router.get("/getCurrentUser", authenticate, async (req: Request, res: Response, next: NextFunction) => {
+router.get("/getCurrentUser", authenticate({ fullProfile: true }), async (req: Request, res: Response, next: NextFunction) => {
     res.status(200).json(req.user)
 })

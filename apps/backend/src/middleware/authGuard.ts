@@ -10,55 +10,61 @@ export interface AuthRequest extends Request {
   };
 }
 
-export const authenticate = async (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    let token;
+interface AuthenticateOptions {
+  fullProfile?: boolean;
+}
 
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-      token = req.headers.authorization.split(' ')[1];
-    }
-
-    if (!token) {
-      res.status(401).json({
-        success: false,
-        error: 'Not authorized to access this route',
-      });
-      return;
-    }
-
+export const authenticate = (options: AuthenticateOptions = {}) => {
+  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET) as { id: string };
+      let token: string | undefined;
 
-      const user = await db.orm.public.User.where({
-        id: decoded.id
-      }).select('id', 'email', 'role').first();
+      if (req.headers.authorization?.startsWith('Bearer')) {
+        token = req.headers.authorization.split(' ')[1];
+      }
 
-      if (!user) {
+      if (!token) {
         res.status(401).json({
           success: false,
-          error: 'User not found',
+          error: 'Not authorized to access this route',
         });
         return;
       }
 
-      req.user = user;
-      next();
-    } catch (error) {
-      res.status(401).json({
-        success: false,
-        error: 'Not authorized to access this route',
-      });
-      return;
-    }
-  } catch (error) {
-    next(error);
-  }
-};
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
 
+        // Define query conditionally
+        let query = await db.orm.public.User.where({
+          id: decoded.id 
+        });
+        if (options.fullProfile) {
+          query = query.include('companyProfile').include('jobSeekerProfile')
+        }
+        const user = await query.first()
+
+        if (!user) {
+          res.status(401).json({
+            success: false,
+            error: 'User not found',
+          });
+          return;
+        }
+
+        req.user = user as any;
+        next();
+      } catch (error) {
+        res.status(401).json({
+          success: false,
+          error: 'Not authorized to access this route',
+        });
+        return;
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+};
 export const authorize = (...roles: string[]) => {
   return (req: AuthRequest, res: Response, next: NextFunction): void => {
     if (!req.user) {
