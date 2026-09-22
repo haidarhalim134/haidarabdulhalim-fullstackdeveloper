@@ -1,10 +1,11 @@
 import { db } from "../../../prisma/db";
-import { AppError, ForbiddenError, NotFoundError } from "../../lib/errors";
+import { AppError, ForbiddenError, NotFoundError, UnauthorizedError } from "../../lib/errors";
 import { RoleEnum } from "../auth/auth.dto";
 import { User } from "../user/user.dto";
 import {
   ApplicationStatusEnum,
   CreateJobDto,
+  getApplicationStatusHistoryDto,
   GetJobsQueryDto,
   UpdateApplicationStatusDto,
 } from "./job.dto";
@@ -38,7 +39,7 @@ export const getJobById = async (jobId: string) => {
     .first();
 
   if (!job) {
-    throw new NotFoundError("Job not found");
+    throw new NotFoundError("Job");
   }
 
   return job;
@@ -47,7 +48,7 @@ export const getJobById = async (jobId: string) => {
 export const applyJob = async (user: User, jobId: string) => {
   const job = await db.orm.public.Job.where({ id: jobId }).first();
   if (!job) {
-    throw new NotFoundError("Job not found");
+    throw new NotFoundError("Job");
   }
 
   if (user.role != RoleEnum.enum.JOB_SEEKER) {
@@ -119,7 +120,7 @@ export const getCompanyJobApplicants = async (user: User, jobId: string) => {
   }).first();
 
   if (!job) {
-    throw new NotFoundError("Job not found or access denied");
+    throw new NotFoundError("Job");
   }
 
   const applications = await db.orm.public.Application.where({ jobId })
@@ -145,7 +146,7 @@ export const updateApplicationStatus = async (
     .first();
 
   if (!application) {
-    throw new NotFoundError("Application not found");
+    throw new NotFoundError("Application");
   }
 
   if (application.job.companyProfileId !== user.companyProfile!.id) {
@@ -167,3 +168,28 @@ export const updateApplicationStatus = async (
     return updatedApplication;
   });
 };
+
+export const getApplicationStatusHistory = async (
+  user: User,
+  input: getApplicationStatusHistoryDto
+) => {
+  const { applicationId } = input.params;
+  const application = await db.orm.public.Application.where({
+    id: applicationId,
+  })
+    .include('job')
+    .include('statusHistories')
+    .first();
+
+  if (!application) {
+    throw new NotFoundError("Application");
+  }
+
+  const ownApplication = user.role == RoleEnum.enum.JOB_SEEKER && application?.jobSeekerProfileId == user.jobSeekerProfile!.id
+  const ownJob = user.role == RoleEnum.enum.COMPANY && application?.job.companyProfileId == user.companyProfile!.id
+  if (!ownApplication && !ownJob) {
+    throw new UnauthorizedError('Unauthorized access');
+  }
+
+  return application.statusHistories
+}

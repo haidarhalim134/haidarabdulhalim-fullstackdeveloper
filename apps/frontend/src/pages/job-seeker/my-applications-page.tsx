@@ -11,6 +11,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 
 export function MyApplicationsPage() {
   const [applications, setApplications] =
@@ -93,7 +95,13 @@ export function MyApplicationsPage() {
               </div>
             </CardHeader>
 
-            <CardContent>
+            <CardContent className='flex flex-row justify-between'>
+              <Button variant={'ghost'} asChild>
+                <Link to={`/application/${application.id}`}>
+                  View History
+                </Link>
+              </Button>
+
               <p className="text-sm text-muted-foreground">
                 Applied{" "}
                 {new Date(

@@ -78,3 +78,14 @@ export async function updateApplicationStatus(
     }
   );
 }
+
+export async function getApplicationStatusHistory(
+  applicationId: string,
+) {
+  return api<ApiResponse<Application>>(
+    `/job/applications/${applicationId}/status-history`,
+    {
+      method: "GET",
+    }
+  );
+}

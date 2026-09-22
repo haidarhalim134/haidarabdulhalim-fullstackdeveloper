@@ -48,3 +48,10 @@ export const updateApplicationStatusSchema = z.object({
   }),
 });
 export type UpdateApplicationStatusDto = z.infer<typeof updateApplicationStatusSchema>;
+
+export const getApplicationStatusHistorySchema = z.object({
+  params: z.object({
+    applicationId: z.string().uuid(),
+  }),
+});
+export type getApplicationStatusHistoryDto = z.infer<typeof getApplicationStatusHistorySchema>;

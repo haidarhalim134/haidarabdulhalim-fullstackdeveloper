@@ -1,13 +1,15 @@
 import * as React from 'react'
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
+import { useAuth } from '../context/authContext';
 
 export function LogoutButton() {
+  const { logout } = useAuth()
 
-  const logout = async () => {
-    localStorage.removeItem('token')
+  const handleLogout = async () => {
+    logout()
     window.location.reload()
   };
 
-  return <Button onClick={logout} className="flex flex-row items-center gap-2" ><LogOut /> log out</Button>;
+  return <Button onClick={handleLogout} className="flex flex-row items-center gap-2" ><LogOut /> log out</Button>;
 }

@@ -15,6 +15,7 @@ import { CreateJobPage } from "@/src/pages/company/create-job-page";
 import { ApplicantsPage } from "@/src/pages/company/applicants-page";
 import { RoleEnum } from './types/auth.dto'
 import Navbar from './components/navbar'
+import ApplicationStatusHistoryPage from './pages/application-history'
 
 export default function App() {
 
@@ -32,11 +33,12 @@ export default function App() {
           <Route path="/register" element={<RegisterPage />} />
 
           <Route element={<ProtectedRoute/>}>
-            <Route path="/job-seeker/find-job" element={<JobListPage />} />
-            <Route path="/job-seeker/jobs/:jobId" element={<JobDetailPage />} />
+            <Route path="/application/:applicationId" element={<ApplicationStatusHistoryPage />} />
           </Route>
 
           <Route element={<ProtectedRoute role={RoleEnum.enum.JOB_SEEKER}/>}>
+            <Route path="/job-seeker/find-job" element={<JobListPage />} />
+            <Route path="/job-seeker/jobs/:jobId" element={<JobDetailPage />} />
             <Route path="/job-seeker/applications" element={<MyApplicationsPage />} />
           </Route>
 

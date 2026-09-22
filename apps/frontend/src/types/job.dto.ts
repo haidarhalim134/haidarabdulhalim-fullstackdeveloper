@@ -55,3 +55,10 @@ export interface Application {
   job?: Job;
   jobSeekerProfile?: JobSeekerProfile;
 }
+
+export type ApplicationHistory = {
+  id: string;
+  applicationId: string;
+  status: ApplicationStatus;
+  createdAt: string;
+};

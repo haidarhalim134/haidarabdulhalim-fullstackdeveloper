@@ -39,13 +39,13 @@ export default function LoginPage() {
       });
 
       localStorage.setItem("token", result.token);
-      localStorage.setItem("user", JSON.stringify(result.user));
-      
+
       if (result.user.role == RoleEnum.enum.JOB_SEEKER) {
         navigate("/job-seeker/find-job");
       } else {
         navigate("/company/jobs");
       }
+      window.location.reload()
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Invalid email or password"

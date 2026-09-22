@@ -3,12 +3,14 @@ import { validateRequest } from "../../middleware/validate";
 import { authenticate, authorize } from "../../middleware/authGuard";
 import {
   createJobSchema,
+  getApplicationStatusHistorySchema,
   getJobsQuerySchema,
   updateApplicationStatusSchema,
 } from "./job.dto";
 import {
   applyJob,
   createJob,
+  getApplicationStatusHistory,
   getCompanyJobApplicants,
   getJobById,
   getJobs,
@@ -135,6 +137,29 @@ router.post(
       res.status(200).json({
         message: "Application status updated successfully",
         data: updatedApplication,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.get(
+  "/applications/:applicationId/status-history",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const result = getApplicationStatusHistorySchema.safeParse({
+        params: req.params,
+      });
+      if (!result.success) throw result.error;
+
+      const history = await getApplicationStatusHistory(
+        req.user,
+        result.data
+      );
+
+      res.status(200).json({
+        data: history,
       });
     } catch (error) {
       next(error);

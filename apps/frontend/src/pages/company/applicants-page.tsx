@@ -176,6 +176,12 @@ export function ApplicantsPage() {
                   </Button>
                 )}
 
+                <Button variant={'ghost'} asChild>
+                  <Link to={`/application/${application.id}`}>
+                    View Status History
+                  </Link>
+                </Button>
+
                 <Select
                   value={application.status}
                   onValueChange={(value) =>
