@@ -4,6 +4,7 @@ import { ValidationError } from "../../lib/errors";
 import { loginUser, registerUser } from "./auth.service";
 import { validateRequest } from "../../middleware/validate";
 import { authenticate } from "../../middleware/authGuard";
+import { AuthenticatedRequest } from "../../lib/types";
 
 export const router = Router();
 
@@ -40,6 +41,6 @@ router.post("/login", validateRequest(loginSchema), async (req: Request, res: Re
   }
 });
 
-router.get("/getCurrentUser", authenticate({ fullProfile: true }), async (req: Request, res: Response, next: NextFunction) => {
+router.get("/getCurrentUser", authenticate({ fullProfile: true }), async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     res.status(200).json(req.user)
 })
