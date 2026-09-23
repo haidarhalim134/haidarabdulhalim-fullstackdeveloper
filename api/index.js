@@ -1,3 +1,5 @@
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 import{createRequire as __WEBPACK_EXTERNAL_createRequire}from"module";var __webpack_modules__={1017:(e,t,n)=>{
 /*!
  * accepts
