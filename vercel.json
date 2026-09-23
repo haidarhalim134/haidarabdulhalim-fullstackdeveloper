@@ -2,9 +2,8 @@
   "version": 2,
   "outputDirectory": "frontend/dist",
   "functions": {
-    "api/index.ts": {
-      "memory": 1024,
-      "maxDuration": 10
+    "api/**/*.ts": {
+      "excludeFiles": "api/src/**"
     }
   },
   "rewrites": [
