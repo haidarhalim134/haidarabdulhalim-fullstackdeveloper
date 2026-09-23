@@ -1,11 +1,6 @@
 {
   "version": 2,
   "outputDirectory": "frontend/dist",
-  "functions": {
-    "apps/backend/index.ts": {
-      "maxDuration": 30
-    }
-  },
   "rewrites": [
     {
       "source": "/(.*)",
@@ -13,7 +8,7 @@
     },
     {
       "source": "/api/(.*)",
-      "destination": "/apps/backend/index.ts"
+      "destination": "/api/index.ts"
     }
   ]
 }
